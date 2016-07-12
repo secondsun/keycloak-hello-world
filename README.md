@@ -90,14 +90,21 @@ And voilà!
 ![Sign-In](docs/app-3.png)
 
 # Implementation Details
+
 The [web.xml](src/main/webapp/WEB-INF/web.xml) file declares that the path /s/hello.jsp is restricted to only logged in sessions with the "user" role.  
 
 The "user" role is defined in the realm.json file and is set to be a default role for the realm.  When a user browses to "/s/hello.jsp" the Keycloak adapter intercepts this request, prompts for a log-in if necessary, and then provides to the application the user's details.
 
 The [hello.jsp](src/main/webapp/s/hello.jsp) file displays the user's name.  This is injected into the request by the Keycloak adapter which has been configured to be loaded by WildFly.
 
+# TroubleShooting
+
+If you need assistance with this demo you can contact me via twitter @summerspittman or email secondsun@gmail.com.
+
 # Closing Notes
 
 We used Docker to speed up the process a lot.  Namely we skipped configuring the Wildfly Client Adapter that the Hello World application uses to broker sessions between the application and the auth server.  The official [Keycloak docs](https://keycloak.gitbooks.io/getting-started-tutorials/content/v/2.0/topics/secure-jboss-app.html) have much more detailed steps for the process.
 
 Also, as a point of note, when we started out application using Docker we used "--net=host".  This is generally bad practice and I only used it to make the demonstration easier.  In an ideal world we would link the containers or configure DNS to properly route between them.
+
+
