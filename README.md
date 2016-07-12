@@ -1,15 +1,15 @@
 # Keycloak Hello-World
 
-This is a VERY basic project that demonstrates how to use [Keycloak](http://keycloak.org) to provide authentication to an application. 
+This is a hello world project that demonstrates how to use [Keycloak](http://keycloak.org) to provide authentication to an application. 
 
-The Keycloak server is a web application which provides authentication and authorization services to applications.  The Keycloak project also supplies adapters which abstract the details of this process from the developer and only expose what is absolutely necessary.  This demonstration uses Keycloak to provide authentication to a Hello World application running on WildFly.  
+Keycloak is a web application and client adapters which provide authentication and authorization services to applications.  This demonstration uses the Keycloak server to provide authentication.  The demo runs in a WildFly application server which has been configured with the Keycloak adapters.
 
-This README will walk you through running the project up using [Docker](https://www.docker.com/products/docker).  
+This README will walk you through how to use [Docker](https://www.docker.com/products/docker) to set up Keycloak, set up Wildfly, and run the project.  
 
 # Prerequisite Software
  * [Docker](https://www.docker.com/products/docker)
  * [Java JDK 8](http://www.oracle.com/technetwork/java/javase/downloads/jdk8-downloads-2133151.html)
- * [Maven](maven.apache.org/download.cgi)
+ * [Maven](http://maven.apache.org/download.cgi)
 
 # Keycloak Server Setup
 
@@ -41,7 +41,7 @@ Before we can compile the application, we need to load the "keycloak.json" file 
 
 ![Keycloak Add Realm Screen](docs/keycloak-3.png)
 
-To compile the application we need to invoke maven from the command line.
+To compile the application we need to invoke maven from the command line in the project's root directory.
 
 ```bash
 mvn clean install
@@ -57,7 +57,7 @@ First we need to build the container from the [docker](docker) directory.
 docker build --tag keycloak-hello-world .
 ```
 
-You should see the message "Successfully built" if docker is build successfully.
+You should see the message "Successfully built" if docker is built successfully.
 
 Now we need to start the Docker container
 
@@ -65,7 +65,7 @@ Now we need to start the Docker container
 docker run --net=host -d -p 8080:8080 -p 9990:9990 --name hello-world keycloak-hello-world
 ```
 
-Once the Docker container has started, we should be able to navigate to [http://localhost:8080].
+Once the Docker container has started, we should be able to navigate to [http://localhost:8080](http://localhost:8080).
 
 # Run the Application
 
@@ -90,14 +90,14 @@ And voilà!
 ![Sign-In](docs/app-3.png)
 
 # Implementation Details
-The application in the [web.xml](src/main/webapps/WEB-INF/web.xml) file declares that the path /s/hello.jsp is restricted to only logged in sessions with the "user" role.  
+The [web.xml](src/main/webapp/WEB-INF/web.xml) file declares that the path /s/hello.jsp is restricted to only logged in sessions with the "user" role.  
 
 The "user" role is defined in the realm.json file and is set to be a default role for the realm.  When a user browses to "/s/hello.jsp" the Keycloak adapter intercepts this request, prompts for a log-in if necessary, and then provides to the application the user's details.
 
-The [hello.jsp](src/main/webapp/s/hello.jsp) file displays the user's Name.  This is injected into the request by the Keycloak adapter which is has been configured to be loaded by WildFly.
+The [hello.jsp](src/main/webapp/s/hello.jsp) file displays the user's name.  This is injected into the request by the Keycloak adapter which has been configured to be loaded by WildFly.
 
 # Closing Notes
 
 We used Docker to speed up the process a lot.  Namely we skipped configuring the Wildfly Client Adapter that the Hello World application uses to broker sessions between the application and the auth server.  The official [Keycloak docs](https://keycloak.gitbooks.io/getting-started-tutorials/content/v/2.0/topics/secure-jboss-app.html) have much more detailed steps for the process.
 
-Also, as a point of note, when we started out application using Docker we users "--net=host".  This is GENERALLY bad practice and I only used it to make the demonstration easier.  In an ideal world we would link the containers, or configure DNS properly to route between them.
+Also, as a point of note, when we started out application using Docker we used "--net=host".  This is generally bad practice and I only used it to make the demonstration easier.  In an ideal world we would link the containers or configure DNS to properly route between them.
