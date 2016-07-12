@@ -1,0 +1,4 @@
+target/**
+nb-**
+**/keycloak.json
+**/node_modules/**

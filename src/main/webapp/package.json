@@ -1,0 +1,10 @@
+{
+    "name": "keycloak-hello-world",
+    "version": "1.0.0",
+    "keywords": ["util", "functional", "server", "client", "browser"],
+    "author": "summers",
+    "contributors": [],
+    "dependencies": {
+        "bootstrap-material-design":"0.5.9"
+    }
+}
